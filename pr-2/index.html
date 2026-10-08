@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RPZ • PR-2 Radar Visualization</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <h1>Радар: візуалізація цілей</h1>
+      <div class="status-wrap">
+        <span id="wsStatus" class="status disconnected">WS: відключено</span>
+        <button id="connectBtn" type="button">Підключити</button>
+        <button id="disconnectBtn" type="button" class="secondary">Відключити</button>
+      </div>
+    </header>
+
+    <section class="layout">
+      <section class="panel chart-panel">
+        <div id="plot" class="plot"></div>
+        <div class="chart-hint">0° — північ, 90° — схід, 180° — південь, 270° — захід</div>
+      </section>
+
+      <aside class="panel controls-panel">
+        <h2>Параметри емулятора</h2>
+        <form id="configForm">
+          <label>
+            measurementsPerRotation
+            <input id="measurementsPerRotation" type="number" min="1" max="360" step="1" />
+          </label>
+
+          <label>
+            rotationSpeed (RPM)
+            <input id="rotationSpeed" type="number" min="0.1" max="60" step="0.1" />
+          </label>
+
+          <label>
+            numberOfTargets
+            <input id="numberOfTargets" type="number" min="1" max="50" step="1" />
+          </label>
+
+          <label>
+            targetSpeed (км/год)
+            <input id="targetSpeed" type="number" min="0" max="20000" step="1" />
+          </label>
+
+          <label>
+            Довжина сліду (обертів)
+            <input id="trailRotations" type="number" min="1" max="12" step="1" value="4" />
+          </label>
+
+          <label class="checkbox-row">
+            <input id="usePowerColoring" type="checkbox" checked />
+            Підсвічувати потужність сигналу (power)
+          </label>
+
+          <div class="actions">
+            <button type="button" id="refreshConfigBtn" class="secondary">Оновити з сервера</button>
+            <button type="submit">Застосувати</button>
+          </div>
+        </form>
+
+        <h3>Телеметрія</h3>
+        <ul class="telemetry">
+          <li>Оберт: <strong id="rotationCounter">0</strong></li>
+          <li>Кут сканування: <strong id="scanAngleValue">—</strong></li>
+          <li>Кількість точок на екрані: <strong id="pointsCount">0</strong></li>
+        </ul>
+
+        <p id="message" class="message"></p>
+      </aside>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
