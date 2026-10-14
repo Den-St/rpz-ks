@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>РПЗ · GPS трилатерація</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" integrity="sha384-cCVCZkAjYNxaYKbM8lsArLznDF/SvMFr1jcZrvOpSTCa0W40ZAdLzHCEulnUa5i7" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/numericjs@1.2.6/numeric-1.2.6.min.js" integrity="sha384-m25bvZlx6YLXIPNwdj9EbWD9vW6TXBpNrPKgHo2TRMMX8jv55GU5qG8W7QlHa0iO" crossorigin="anonymous"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Лабораторно-практичне заняття №3</p>
+        <h1>GPS: трилатерація об’єкта</h1>
+      </div>
+      <div class="connection-controls">
+        <span id="wsStatus" class="status disconnected">WS: відключено</span>
+        <button id="connectBtn" type="button">Підключити</button>
+        <button id="disconnectBtn" type="button" class="secondary">Відключити</button>
+      </div>
+    </header>
+
+    <section class="layout">
+      <section class="panel chart-panel">
+        <div id="plot" class="plot" aria-label="Графік положень супутників та об’єкта"></div>
+        <div class="legend-hint">
+          Синій — супутники · Жовтий — аналітичний метод · Зелений — чисельний метод
+        </div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel control-panel">
+          <h2>Параметри розрахунку</h2>
+          <label>
+            Максимальний розкид часу, мс
+            <input id="timeSpreadInput" type="number" min="10" max="5000" step="10" value="300" />
+          </label>
+          <label>
+            Довжина сліду, точок
+            <input id="trailLengthInput" type="number" min="0" max="300" step="10" value="80" />
+          </label>
+          <p class="note">Розрахунок виконується лише для трьох найсвіжіших узгоджених вимірювань.</p>
+        </section>
+
+        <section class="panel telemetry-panel">
+          <h2>Телеметрія</h2>
+          <dl class="telemetry">
+            <div><dt>Активних супутників</dt><dd id="satelliteCount">0</dd></div>
+            <div><dt>Розкид вимірювань</dt><dd id="timeSpreadValue">—</dd></div>
+            <div><dt>Остання дальність</dt><dd id="lastDistanceValue">—</dd></div>
+            <div><dt>Стрибок аналітичний</dt><dd id="analyticJumpValue">—</dd></div>
+            <div><dt>Стрибок чисельний</dt><dd id="numericJumpValue">—</dd></div>
+          </dl>
+        </section>
+
+        <section class="panel result-panel">
+          <h2>Останній розрахунок</h2>
+          <div class="result-row"><span>Аналітичний</span><strong id="analyticPosition">—</strong></div>
+          <div class="result-row"><span>Чисельний</span><strong id="numericPosition">—</strong></div>
+          <p id="message" class="message">Очікування підключення до емулятора.</p>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
